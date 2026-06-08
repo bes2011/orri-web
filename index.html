@@ -726,9 +726,11 @@
         <div class="mk">Reserva una llamada</div>
         <h3 id="callModalTitle">Te llamamos.</h3>
         <p class="mp">Déjanos tu nombre y teléfono y te llamaremos de inmediato.</p>
-        <div class="field"><label for="c-nombre">Tu nombre</label><input id="c-nombre" name="nombre" type="text" placeholder="Nombre y apellido" required=""></div>
-        <div class="field"><label for="c-tel">Teléfono</label><input id="c-tel" name="telefono" type="tel" placeholder="+34 600 000 000" required=""></div>
-        <button class="btn" type="submit">Que me llamen</button>
+        <div class="field"><label for="c-nombre">Tu nombre</label><input id="c-nombre" name="nombre" type="text" placeholder="Nombre y apellido" required="" autocomplete="name"></div>
+        <div class="field"><label for="c-tel">Teléfono</label><input id="c-tel" name="telefono" type="tel" placeholder="+34 600 000 000" required="" autocomplete="tel"></div>
+        <div class="field"><label id="c-captcha-label">Verificación</label><input id="c-captcha" type="number" placeholder="?" autocomplete="off" style="width:100px"></div>
+        <button class="btn" type="submit" id="callSubmitBtn">Solicitar llamada</button>
+        <div id="callFormError" style="display:none;margin-top:12px;font-size:13px;color:#c97b5a;"></div>
       </div>
       <div class="modal-done">
         <div class="md-h">Te llamamos de inmediato.</div>
@@ -740,130 +742,83 @@
 
 
 
-<!-- MODAL: RESERVAR LLAMADA -->
-<div id="callModal" class="call-modal" role="dialog" aria-modal="true" aria-labelledby="callModalTitle" aria-hidden="true">
-  <div class="call-modal-overlay" id="callModalOverlay"></div>
-  <div class="call-modal-box">
-    <button class="call-modal-close" id="callModalClose" aria-label="Cerrar">✕</button>
-    <div id="callFormWrap">
-      <div class="call-modal-kicker">Reservar llamada</div>
-      <h2 class="call-modal-title" id="callModalTitle">Cuéntanos quién eres.</h2>
-      <p class="call-modal-sub">Te llamamos en menos de 24 h para una conversación de 20 minutos sin compromiso.</p>
-      <!-- FORMSPREE: sustituye YOUR_FORM_ID por tu endpoint de formspree.io -->
-      <form id="callForm" novalidate>
-        <div class="call-field">
-          <label for="callNombre">Nombre</label>
-          <input type="text" id="callNombre" name="nombre" required placeholder="Tu nombre completo" autocomplete="name">
-        </div>
-        <div class="call-field">
-          <label for="callTelefono">Teléfono</label>
-          <input type="tel" id="callTelefono" name="telefono" required placeholder="+34 600 000 000" autocomplete="tel">
-        </div>
-        <div class="call-captcha">
-          <label id="captchaLabel">Verificación</label>
-          <input type="number" id="captchaInput" placeholder="?" aria-labelledby="captchaLabel" autocomplete="off">
-        </div>
-        <button type="submit" class="call-submit" id="callSubmit">Enviar solicitud →</button>
-        <div class="call-error" id="callError" style="display:none"></div>
-      </form>
-    </div>
-    <div id="callSuccess" class="call-success" style="display:none">
-      <p>Perfecto —<br>te llamamos pronto.</p>
-      <small>Hemos recibido tu solicitud</small>
-    </div>
-  </div>
-</div>
-
 <script src="image-slot.js"></script>
 <script src="orri-site.js"></script>
 <script>
 (function(){
-  /* ── configuración ── */
   var FORMSPREE = 'https://formspree.io/f/xwvjodvp';
-
-  /* ── captcha aritmético ── */
   var captchaAnswer = 0;
+
   function newCaptcha(){
     var a = Math.floor(Math.random()*9)+1;
     var b = Math.floor(Math.random()*9)+1;
     captchaAnswer = a + b;
-    document.getElementById('captchaLabel').textContent = '¿Cuánto es ' + a + ' + ' + b + '?';
-    document.getElementById('captchaInput').value = '';
+    document.getElementById('c-captcha-label').textContent = '¿Cuánto es ' + a + ' + ' + b + '?';
+    document.getElementById('c-captcha').value = '';
   }
 
-  /* ── modal ── */
-  var modal   = document.getElementById('callModal');
-  var formWrap= document.getElementById('callFormWrap');
-  var success = document.getElementById('callSuccess');
-  var errorEl = document.getElementById('callError');
-
-  function openModal(){
-    newCaptcha();
-    success.style.display = 'none';
-    formWrap.style.display = '';
-    errorEl.style.display  = 'none';
-    modal.classList.add('open');
-    modal.setAttribute('aria-hidden','false');
-    document.body.style.overflow = 'hidden';
-    setTimeout(function(){ document.getElementById('callNombre').focus(); }, 350);
-  }
-  function closeModal(){
-    modal.classList.remove('open');
-    modal.setAttribute('aria-hidden','true');
-    document.body.style.overflow = '';
-  }
-
-  document.getElementById('callLink').addEventListener('click', function(e){ e.preventDefault(); openModal(); });
-  document.getElementById('callModalClose').addEventListener('click', closeModal);
-  document.getElementById('callModalOverlay').addEventListener('click', closeModal);
-  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeModal(); });
-
-  /* ── envío ── */
-  document.getElementById('callForm').addEventListener('submit', function(e){
-    e.preventDefault();
-    var nombre   = document.getElementById('callNombre').value.trim();
-    var telefono = document.getElementById('callTelefono').value.trim();
-    var captcha  = parseInt(document.getElementById('captchaInput').value, 10);
-
-    if(!nombre || !telefono){ showError('Por favor rellena todos los campos.'); return; }
-    if(isNaN(captcha) || captcha !== captchaAnswer){ showError('La verificación no es correcta.'); newCaptcha(); return; }
-
-    var btn = document.getElementById('callSubmit');
-    btn.disabled = true;
-    btn.textContent = 'Enviando…';
-    errorEl.style.display = 'none';
-
-    fetch(FORMSPREE, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({
-        nombre: nombre,
-        telefono: telefono,
-        _subject: 'Solicitud de llamada — ORRI',
-        _replyto: 'hola@orri.studio'
-      })
-    })
-    .then(function(r){ return r.json().then(function(d){ return {ok:r.ok, data:d}; }); })
-    .then(function(res){
-      if(res.ok){
-        formWrap.style.display = 'none';
-        success.style.display  = '';
-      } else {
-        btn.disabled = false;
-        btn.textContent = 'Enviar solicitud →';
-        showError('Algo salió mal. Escríbenos directamente a hola@orri.studio');
-      }
-    })
-    .catch(function(){
-      btn.disabled = false;
-      btn.textContent = 'Enviar solicitud →';
-      showError('No se pudo enviar. Inténtalo de nuevo o escríbenos a hola@orri.studio');
+  /* init captcha on load and each time the modal opens */
+  newCaptcha();
+  var modal = document.getElementById('callModal');
+  if(modal){
+    var obs = new MutationObserver(function(muts){
+      muts.forEach(function(m){
+        if(m.attributeName === 'class' && modal.classList.contains('is-open')) newCaptcha();
+      });
     });
-  });
+    obs.observe(modal, { attributes: true });
+  }
 
-  function showError(msg){
-    errorEl.textContent = msg;
-    errorEl.style.display = '';
+  /* intercept form submit */
+  var form = document.getElementById('callForm');
+  if(form){
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      e.stopImmediatePropagation();
+
+      var nombre   = document.getElementById('c-nombre').value.trim();
+      var telefono = document.getElementById('c-tel').value.trim();
+      var captcha  = parseInt(document.getElementById('c-captcha').value, 10);
+      var errEl    = document.getElementById('callFormError');
+      var btn      = document.getElementById('callSubmitBtn');
+
+      errEl.style.display = 'none';
+
+      if(!nombre || !telefono){ showErr('Por favor rellena todos los campos.'); return; }
+      if(isNaN(captcha) || captcha !== captchaAnswer){ showErr('Verificación incorrecta.'); newCaptcha(); return; }
+
+      btn.disabled = true;
+      btn.textContent = 'Enviando…';
+
+      fetch(FORMSPREE, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          nombre: nombre,
+          telefono: telefono,
+          _subject: 'Solicitud de llamada — ORRI',
+          _replyto: 'hola@orri.studio'
+        })
+      })
+      .then(function(r){ return r.json().then(function(d){ return { ok: r.ok, data: d }; }); })
+      .then(function(res){
+        if(res.ok){
+          form.querySelector('.form-fields').style.display = 'none';
+          form.querySelector('.modal-done').style.display  = '';
+        } else {
+          btn.disabled = false;
+          btn.textContent = 'Solicitar llamada';
+          showErr('Algo salió mal. Escríbenos a hola@orri.studio');
+        }
+      })
+      .catch(function(){
+        btn.disabled = false;
+        btn.textContent = 'Solicitar llamada';
+        showErr('No se pudo enviar. Inténtalo de nuevo.');
+      });
+
+      function showErr(msg){ errEl.textContent = msg; errEl.style.display = ''; }
+    });
   }
 })();
 </script>
