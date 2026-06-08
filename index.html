@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
-<head>
+<html lang="es"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ORRI · El refugio del bienestar corporativo</title>
@@ -38,6 +37,7 @@
   section{ position:relative; padding:clamp(90px,13vh,180px) var(--pad); scroll-margin-top:72px; overflow:hidden; }
   .sec-dark{ background:var(--pine); color:var(--on-dark); }
   .sec-deep{ background:var(--pine-deep); color:var(--on-dark); }
+  .sec-mute{ background:#DEDDD4; color:var(--ink); }
   .display{ font-family:var(--serif); font-weight:500; line-height:1.02; margin:0; }
   .lead{ font-family:var(--serif); font-weight:400; line-height:1.14; margin:0; }
   .body{ font-weight:300; line-height:1.65; color:var(--ink-soft); }
@@ -48,8 +48,8 @@
 
   /* contour layers */
   .contours{ position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:1; opacity:.75; }
-  .sec-light .contours{ color:var(--line); }
-  .sec-dark .contours,.sec-deep .contours{ color:var(--line-dark); }
+  .sec-light .contours,.sec-mute .contours{ color:var(--line); }
+  .sec-dark .contours,.sec-deep .contours,.site-foot .contours{ color:var(--line-dark); }
   .contour-svg{ position:absolute; inset:0; width:100%; height:100%; }
   .cline{ fill:none; stroke:currentColor; stroke-width:1.1; vector-effect:non-scaling-stroke; }
   .cline.idx{ stroke-width:1.8; }
@@ -68,7 +68,7 @@
   .hero .contours{ color:rgba(222,220,209,.16); opacity:1; z-index:1; }
   .hero-inner{ position:relative; z-index:3; width:100%; }
   .hero-wm{ font-family:var(--serif); font-weight:500; letter-spacing:.04em; line-height:.9; font-size:clamp(72px,26vw,440px); margin:.06em 0 0; }
-  .hero-tag{ font-family:var(--serif); font-style:italic; font-weight:400; font-size:clamp(22px,4.4vw,58px); margin:.2em 0 0; color:var(--on-dark); }
+  .hero-tag{ font-family:var(--serif); font-style:italic; font-weight:400; font-size:clamp(24px,4.4vw,58px); margin:.2em 0 0; color:var(--on-dark); }
   .hero-eyebrow{ font-family:var(--mono); font-size:clamp(12px,1.5vw,16px); letter-spacing:.22em; text-transform:uppercase; color:var(--on-dark-soft); }
   .hero-coord{ position:absolute; top:84px; right:var(--pad); z-index:3; white-space:nowrap; font-size:clamp(12px,1.4vw,15px); letter-spacing:.06em; color:var(--on-dark-soft); }
   @media (max-width:720px){ .hero-coord{ display:none; } }
@@ -115,31 +115,191 @@
   .cierre .hero-wm{ font-size:clamp(72px,28vw,420px); }
   .contact{ font-family:var(--mono); font-size:clamp(13px,1.6vw,17px); letter-spacing:.14em; color:var(--on-dark); }
   .foot{ margin-top:clamp(60px,10vh,120px); display:flex; justify-content:space-between; flex-wrap:wrap; gap:14px; font-family:var(--mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--on-dark-soft); }
-  @media (max-width:480px){
-    :root{ --pad:20px; }
-    .prow{ grid-template-columns:40px 1fr; gap:14px; row-gap:4px; }
-    .prow .pmark{ grid-row:1 / span 2; width:38px; height:38px; }
-    .prow .pnum{ grid-column:2; }
-    .prow .pbody{ grid-column:2; }
-  }
+
+  /* ===== commercial layer ===== */
+  .intro-lead{ font-family:var(--serif); font-weight:400; font-size:clamp(28px,4vw,56px); line-height:1.16; max-width:20ch; margin:clamp(20px,3vh,36px) 0 0; }
+  .sec-head{ max-width:920px; }
+  .sec-sub{ font-size:clamp(17px,2vw,23px); color:var(--ink-soft); line-height:1.6; max-width:48ch; margin:clamp(20px,3vh,34px) 0 0; }
+  .sec-dark .sec-sub,.sec-deep .sec-sub{ color:var(--on-dark-soft); }
+  .todo{ font-family:var(--mono); font-size:.78em; letter-spacing:.02em; color:#9a6a3a; background:rgba(154,106,58,.10); border:1px dashed rgba(154,106,58,.55); border-radius:4px; padding:1px 7px; white-space:nowrap; }
+  .sec-dark .todo,.sec-deep .todo{ color:#d9b48a; background:rgba(217,180,138,.10); border-color:rgba(217,180,138,.42); }
+
+  /* nav CTA + mobile */
+  .nav-actions{ display:flex; align-items:center; gap:clamp(16px,2.4vw,38px); }
+  .nav-cta{ font-family:var(--mono); font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:inherit; border:1px solid currentColor; border-radius:999px; padding:9px 18px; opacity:.92; transition:opacity .3s,background .3s,color .3s; white-space:nowrap; }
+  .nav-cta:hover{ opacity:1; background:currentColor; }
+  .nav-cta:hover span{ color:var(--pine-deep); }
+  .nav.solid .nav-cta:hover span{ color:var(--mist); }
+  .nav-menu-btn{ display:none; font-family:var(--mono); font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:inherit; background:none; border:0; cursor:pointer; padding:6px 0; }
+  @media (max-width:720px){ .nav-menu-btn{ display:block; } }
+  .nav-overlay{ position:fixed; inset:0; z-index:60; background:var(--pine-deep); color:var(--on-dark); display:flex; flex-direction:column; justify-content:center; gap:2px; padding:var(--pad); transform:translateY(-101%); transition:transform .55s cubic-bezier(.2,.7,.2,1); }
+  .nav-overlay.open{ transform:none; }
+  .nav-overlay a{ font-family:var(--serif); font-weight:500; font-size:clamp(34px,9vw,56px); padding:10px 0; border-bottom:1px solid var(--line-dark); }
+  .nav-overlay .ov-coord{ font-family:var(--mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--on-dark-soft); margin-top:30px; border:0; padding:0; }
+  .ov-close{ position:absolute; top:24px; right:var(--pad); font-family:var(--mono); font-size:13px; letter-spacing:.16em; text-transform:uppercase; background:none; border:0; color:inherit; cursor:pointer; }
+
+  /* método — accesos */
+  .access-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(14px,1.8vw,24px); margin-top:clamp(40px,6vh,72px); }
+  @media (max-width:780px){ .access-grid{ grid-template-columns:1fr; } }
+  .access{ border:1px solid var(--line); border-radius:8px; padding:clamp(26px,3vw,38px); display:flex; flex-direction:column; gap:16px; min-height:248px; transition:background .4s,transform .4s; }
+  .access:hover{ background:rgba(255,255,255,.4); transform:translateY(-3px); }
+  .access .alt{ font-family:var(--mono); font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--sage); }
+  .access .amark{ width:48px; height:48px; color:var(--ink); }
+  .access .amark svg{ width:100%; height:100%; display:block; overflow:visible; }
+  .access h3{ font-family:var(--serif); font-weight:500; font-size:clamp(28px,3.4vw,42px); margin:0; line-height:1; }
+  .access p{ margin:0; color:var(--ink-soft); font-size:clamp(15px,1.6vw,18px); line-height:1.55; }
+  .access .go{ margin-top:auto; font-family:var(--mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--sage); }
+
+  /* servicios */
+  .service-grid{ display:grid; grid-template-columns:1fr 1fr; gap:clamp(36px,6vw,96px); align-items:center; }
+  .service-grid.flip .service-media{ order:2; }
+  @media (max-width:860px){ .service-grid{ grid-template-columns:1fr; gap:30px; } .service-grid.flip .service-media{ order:0; } }
+  .service-media{ position:relative; aspect-ratio:4/5; border-radius:8px; overflow:hidden; background:var(--stone); }
+  .service-media image-slot{ display:block; width:100%; height:100%; }
+  .service-alt{ position:absolute; top:16px; left:16px; z-index:2; font-family:var(--mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--on-dark); background:rgba(20,24,18,.5); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); padding:7px 13px; border-radius:999px; }
+  .service h2{ font-family:var(--serif); font-weight:500; font-size:clamp(40px,6.4vw,86px); line-height:1; margin:0; }
+  .service .pos{ font-family:var(--serif); font-style:italic; font-size:clamp(22px,3vw,34px); color:var(--sage); margin:14px 0 0; }
+  .service .desc{ font-size:clamp(16px,1.9vw,21px); color:var(--ink-soft); line-height:1.6; margin:22px 0 0; max-width:42ch; }
+  .spec{ list-style:none; margin:26px 0 0; padding:0; }
+  .spec li{ display:grid; grid-template-columns:150px 1fr; gap:18px; padding:14px 0; border-top:1px solid var(--line); font-size:clamp(15px,1.7vw,18px); }
+  .spec li:first-child{ border-top:0; }
+  .spec .k{ font-family:var(--mono); font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--sage); padding-top:3px; }
+  .spec .v{ color:var(--ink); font-weight:300; }
+  @media (max-width:480px){ .spec li{ grid-template-columns:1fr; gap:4px; } }
+  .forwhom{ margin-top:24px; font-size:clamp(15px,1.7vw,18px); color:var(--ink); }
+  .forwhom b{ font-weight:500; }
+
+  /* impacto */
+  .impact-grid{ display:grid; grid-template-columns:repeat(3,1fr); grid-template-rows:auto auto auto; column-gap:clamp(24px,4vw,56px); row-gap:0; margin-top:clamp(44px,6vh,72px); }
+  @media (max-width:780px){ .impact-grid{ grid-template-columns:1fr; grid-template-rows:none; gap:38px; } }
+  .stat{ display:grid; grid-template-rows:subgrid; grid-row:span 3; }
+  @media (max-width:780px){ .stat{ grid-row:auto; grid-template-rows:none; } }
+  .stat .n{ font-family:var(--serif); font-weight:500; font-size:clamp(48px,6.5vw,92px); line-height:.9; color:var(--on-dark); display:block; }
+  .stat .d{ margin-top:16px; color:var(--on-dark-soft); font-size:clamp(15px,1.7vw,19px); line-height:1.5; max-width:30ch; }
+  .stat .src{ margin-top:18px; padding-top:14px; border-top:1px solid var(--line-dark); font-family:var(--mono); font-size:12px; letter-spacing:.04em; color:var(--on-dark-soft); opacity:.85; line-height:1.5; }
+  .twocol-text{ display:grid; grid-template-columns:1fr 1fr; gap:clamp(30px,5vw,84px); margin-top:clamp(20px,3vh,34px); }
+  @media (max-width:780px){ .twocol-text{ grid-template-columns:1fr; gap:26px; } }
+  .twocol-text h3{ font-family:var(--mono); font-weight:400; font-size:13px; letter-spacing:.16em; text-transform:uppercase; color:var(--sage); margin:0 0 14px; }
+  .twocol-text p{ margin:0; font-size:clamp(17px,2vw,22px); line-height:1.6; color:var(--on-dark); }
+
+  /* proceso */
+  .steps{ display:grid; grid-template-columns:repeat(4,1fr); gap:clamp(20px,2.4vw,40px); margin-top:clamp(44px,6vh,72px); }
+  @media (max-width:860px){ .steps{ grid-template-columns:1fr 1fr; gap:40px 30px; } }
+  @media (max-width:520px){ .steps{ grid-template-columns:1fr; } }
+  .step{ border-top:1px solid var(--line); padding-top:22px; }
+  .step .sn{ font-family:var(--mono); font-size:13px; letter-spacing:.14em; color:var(--sage); }
+  .step h3{ font-family:var(--serif); font-weight:500; font-size:clamp(24px,2.8vw,34px); margin:16px 0 12px; line-height:1.04; }
+  .step p{ margin:0; color:var(--ink-soft); font-size:clamp(14px,1.6vw,17px); line-height:1.55; }
+
+  /* confían */
+  .logos{ display:grid; grid-template-columns:repeat(5,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-top:clamp(36px,5vh,56px); border-radius:8px; overflow:hidden; }
+  @media (max-width:680px){ .logos{ grid-template-columns:repeat(2,1fr); } }
+  .logos .cell{ background:var(--mist); aspect-ratio:16/9; display:flex; align-items:center; justify-content:center; }
+  .logos .cell span{ font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--sage); }
+  .quotes{ display:grid; grid-template-columns:repeat(2,1fr); gap:clamp(18px,2.6vw,36px); margin-top:clamp(40px,5vh,64px); }
+  @media (max-width:760px){ .quotes{ grid-template-columns:1fr; } }
+  .quote{ border:1px solid var(--line); border-radius:8px; padding:clamp(28px,3vw,42px); display:flex; flex-direction:column; gap:22px; }
+  .quote blockquote{ margin:0; font-family:var(--serif); font-weight:500; font-size:clamp(22px,2.7vw,32px); line-height:1.28; }
+  .quote .who{ display:flex; align-items:center; gap:14px; }
+  .quote .ph{ width:46px; height:46px; border-radius:50%; background:var(--stone); flex:none; }
+  .quote .nm{ font-size:15px; }
+  .quote .rl{ font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--sage); margin-top:3px; }
+  .team{ display:grid; grid-template-columns:repeat(4,1fr); gap:clamp(18px,2.4vw,32px); margin-top:clamp(40px,5vh,64px); }
+  @media (max-width:760px){ .team{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:440px){ .team{ grid-template-columns:1fr; } }
+  .member .ph{ aspect-ratio:1; border-radius:8px; background:var(--stone); margin-bottom:14px; }
+  .member .nm{ font-family:var(--serif); font-weight:500; font-size:clamp(19px,2.1vw,24px); }
+  .member .rl{ font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--sage); margin-top:5px; }
+
+  /* conversión */
+  .cta-grid{ display:grid; grid-template-columns:1.05fr 1fr; gap:clamp(40px,6vw,90px); align-items:start; margin-top:clamp(44px,6vh,72px); }
+  @media (max-width:860px){ .cta-grid{ grid-template-columns:1fr; gap:44px; } }
+  .form{ display:flex; flex-direction:column; }
+  .form-fields{ display:flex; flex-direction:column; gap:20px; }
+  .field{ display:flex; flex-direction:column; gap:8px; }
+  .field label{ font-family:var(--mono); font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--on-dark-soft); }
+  .field input,.field select,.field textarea{ font-family:var(--sans); font-weight:300; font-size:17px; color:var(--on-dark); background:transparent; border:0; border-bottom:1px solid var(--line-dark); padding:11px 2px; outline:none; transition:border-color .3s; border-radius:0; }
+  .field input::placeholder,.field textarea::placeholder{ color:var(--on-dark-soft); opacity:.5; }
+  .field input:focus,.field select:focus,.field textarea:focus{ border-bottom-color:var(--on-dark); }
+  .field select{ -webkit-appearance:none; appearance:none; cursor:pointer; }
+  .field select option{ color:#1c1c1c; }
+  .btn{ align-self:flex-start; font-family:var(--mono); font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--pine-deep); background:var(--mist); border:0; border-radius:999px; padding:16px 30px; cursor:pointer; margin-top:30px; transition:transform .3s,opacity .3s; }
+  .btn:hover{ transform:translateY(-2px); opacity:.92; }
+  .form-note{ font-family:var(--mono); font-size:12px; color:var(--on-dark-soft); letter-spacing:.03em; margin-top:18px; line-height:1.6; }
+  .form-done{ display:none; }
+  .form.sent .form-fields,.form.sent .form-note{ display:none; }
+  .form.sent .form-done{ display:flex; flex-direction:column; gap:14px; }
+  .form-done .fd-h{ font-family:var(--serif); font-weight:500; font-size:clamp(30px,4vw,48px); line-height:1.05; }
+  .form-done .fd-p{ color:var(--on-dark-soft); font-size:clamp(15px,1.7vw,18px); line-height:1.6; max-width:34ch; }
+  .dossier{ border:1px solid var(--line-dark); border-radius:8px; padding:clamp(28px,3vw,40px); display:flex; flex-direction:column; gap:16px; }
+  .dossier h3{ font-family:var(--serif); font-weight:500; font-size:clamp(26px,3vw,38px); margin:0; line-height:1.05; }
+  .dossier p{ margin:0; color:var(--on-dark-soft); font-size:clamp(15px,1.7vw,18px); line-height:1.6; }
+  .dossier .dl{ display:inline-flex; align-items:center; gap:10px; font-family:var(--mono); font-size:13px; letter-spacing:.12em; text-transform:uppercase; color:var(--on-dark); border-bottom:1px solid var(--on-dark-soft); padding-bottom:5px; align-self:flex-start; margin-top:6px; transition:gap .3s; }
+  .dossier .dl:hover{ gap:16px; }
+  .alt-contact{ margin-top:clamp(36px,5vh,56px); padding-top:24px; border-top:1px solid var(--line-dark); font-family:var(--mono); font-size:13px; letter-spacing:.06em; color:var(--on-dark-soft); }
+  .alt-contact a{ font-family:var(--sans); font-weight:400; font-size:15px; letter-spacing:.01em; color:var(--on-dark); border-bottom:1px solid var(--on-dark-soft); padding-bottom:2px; }
+
+  /* footer */
+  .site-foot{ background:var(--pine-deep); color:var(--on-dark); padding:clamp(60px,9vh,110px) var(--pad) 48px; position:relative; }
+  .foot-grid{ display:grid; grid-template-columns:1.5fr 1fr 1fr; gap:clamp(30px,4vw,60px); position:relative; z-index:2; }
+  @media (max-width:760px){ .foot-grid{ grid-template-columns:1fr; gap:38px; } }
+  .foot-brand .wm{ font-family:var(--serif); font-weight:500; letter-spacing:.34em; font-size:clamp(30px,4vw,46px); text-indent:.34em; }
+  .foot-brand .tg{ font-family:var(--serif); font-style:italic; font-size:clamp(18px,2vw,24px); color:var(--on-dark-soft); margin-top:10px; }
+  .foot-col h4{ font-family:var(--mono); font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--on-dark-soft); margin:0 0 16px; font-weight:400; }
+  .foot-col a{ display:block; padding:5px 0; color:var(--on-dark); opacity:.85; transition:opacity .3s; }
+  .foot-col a.mail{ font-family:var(--sans); letter-spacing:.01em; }
+  .foot-col a:hover{ opacity:1; }
+  .foot-bottom{ position:relative; z-index:2; display:flex; justify-content:space-between; flex-wrap:wrap; gap:14px; margin-top:clamp(50px,7vh,90px); padding-top:24px; border-top:1px solid var(--line-dark); font-family:var(--mono); font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--on-dark-soft); }
+
+  /* call modal */
+  .modal{ position:fixed; inset:0; z-index:80; display:flex; align-items:center; justify-content:center; padding:24px; opacity:0; pointer-events:none; transition:opacity .35s ease; }
+  .modal.open{ opacity:1; pointer-events:auto; }
+  .modal-scrim{ position:absolute; inset:0; background:rgba(12,14,11,.62); backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px); }
+  .modal-card{ position:relative; z-index:2; width:min(460px,100%); background:var(--pine); color:var(--on-dark); border:1px solid var(--line-dark); border-radius:12px; padding:clamp(30px,4vw,46px); transform:translateY(16px) scale(.98); transition:transform .4s cubic-bezier(.2,.7,.2,1); }
+  .modal.open .modal-card{ transform:none; }
+  .modal-close{ position:absolute; top:18px; right:20px; background:none; border:0; color:var(--on-dark-soft); font-family:var(--mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase; cursor:pointer; }
+  .modal-card .mk{ font-family:var(--mono); font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--sage); }
+  .modal-card h3{ font-family:var(--serif); font-weight:500; font-size:clamp(30px,4.4vw,42px); line-height:1.02; margin:14px 0 8px; }
+  .modal-card .mp{ color:var(--on-dark-soft); font-size:clamp(15px,1.7vw,18px); line-height:1.55; margin:0 0 24px; }
+  .modal-card .form-fields{ gap:18px; }
+  .modal-done{ display:none; }
+  .modal-card .form.sent .form-fields{ display:none; }
+  .modal-card .form.sent .modal-done{ display:flex; flex-direction:column; gap:12px; }
+  .modal-done .md-h{ font-family:var(--serif); font-weight:500; font-size:clamp(26px,3.6vw,36px); line-height:1.05; }
+  .modal-done .md-p{ color:var(--on-dark-soft); font-size:clamp(15px,1.7vw,18px); line-height:1.6; }
 </style>
 </head>
 <body>
 
 <header class="nav" id="nav">
   <a class="nav-wm" href="#top">ORRI</a>
-  <nav class="nav-links">
-    <a href="#origen">Origen</a>
-    <a href="#territorio">Territorio</a>
-    <a href="#idea">Idea</a>
-    <a href="#pilares">Pilares</a>
-  </nav>
+  <div class="nav-actions">
+    <nav class="nav-links">
+      <a href="#origen">Origen</a>
+      <a href="#metodo">Método</a>
+      <a href="#impacto">Impacto</a>
+      <a href="#confian">Confían</a>
+    </nav>
+    <a class="nav-cta" href="#contacto"><span>Solicita propuesta</span></a>
+    <button class="nav-menu-btn" id="menuBtn" aria-label="Abrir menú">Menú</button>
+  </div>
 </header>
+
+<div class="nav-overlay" id="navOverlay">
+  <button class="ov-close" id="ovClose" aria-label="Cerrar menú">Cerrar</button>
+  <a href="#origen">Origen</a>
+  <a href="#pilares">Pilares</a>
+  <a href="#metodo">Método</a>
+  <a href="#impacto">Impacto</a>
+  <a href="#confian">Confían</a>
+  <a href="#contacto">Solicita propuesta</a>
+  <div class="ov-coord">42.4128° N · 1.8244° E</div>
+</div>
 
 <!-- HERO -->
 <section class="hero" id="top">
   <div class="hero-bg"><image-slot id="web-hero" placeholder="Foto de portada — montaña / niebla / Gréixer (a sangre)"></image-slot><div class="hero-scrim"></div></div>
-  <div class="contours" data-contours data-seed="1.1"></div>
+  <div class="contours" data-contours="" data-seed="1.1"></div>
   <div class="hero-coord mono">42.4128° N · 1.8244° E</div>
   <div class="wrap hero-inner reveal">
     <div class="hero-eyebrow">Nacido en Gréixer · 1.345 m.s.n.m.</div>
@@ -151,7 +311,7 @@
 
 <!-- ORIGEN -->
 <section class="sec-light" id="origen">
-  <div class="contours" data-contours data-seed="2.7"></div>
+  <div class="contours" data-contours="" data-seed="2.7"></div>
   <div class="wrap twocol">
     <div class="stk reveal">
       <div class="kicker">01 — El origen</div>
@@ -171,20 +331,20 @@
 
 <!-- TERRITORIO -->
 <section class="sec-dark" id="territorio">
-  <div class="contours" data-contours data-seed="4.3"></div>
+  <div class="contours" data-contours="" data-seed="4.3"></div>
   <div class="wrap">
     <div class="kicker reveal" style="color:var(--on-dark-soft);">02 — El territorio</div>
     <div class="alt-num reveal d1" style="margin-top:clamp(24px,4vh,56px);"><span data-count="1345">0</span></div>
     <div class="terr-foot">
       <div class="mono reveal d1" style="letter-spacing:.2em; text-transform:uppercase; color:var(--on-dark-soft); font-size:clamp(13px,1.6vw,17px);">metros sobre el nivel del mar</div>
-      <p class="body reveal" data-after-count style="margin:0; font-size:clamp(18px,2.1vw,26px); max-width:34ch;">ORRI nace en Gréixer, en la puerta del Parque Natural del Cadí-Moixeró. Donde el tiempo funciona de otra manera, el ruido desaparece y las cosas vuelven a tener perspectiva.</p>
+      <p class="body reveal" data-after-count="" style="margin:0; font-size:clamp(18px,2.1vw,26px); max-width:34ch;">ORRI nace en Gréixer, en la puerta del Parque Natural del Cadí-Moixeró. Donde el tiempo funciona de otra manera, el ruido desaparece y las cosas vuelven a tener perspectiva.</p>
     </div>
   </div>
 </section>
 
 <!-- IDEA CENTRAL -->
 <section class="sec-light" id="idea">
-  <div class="contours" data-contours data-seed="6.1"></div>
+  <div class="contours" data-contours="" data-seed="6.1"></div>
   <div class="wrap twocol">
     <div class="stk reveal">
       <div class="kicker">03 — La idea central</div>
@@ -214,57 +374,334 @@
 
     <div class="prow reveal">
       <div class="pnum">01</div>
-      <div class="pmark"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="7"/><circle cx="32" cy="32" r="15"/><circle cx="32" cy="32" r="23"/></svg></div>
+      <div class="pmark"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="7"></circle><circle cx="32" cy="32" r="15"></circle><circle cx="32" cy="32" r="23"></circle></svg></div>
       <div class="pbody"><div class="pname">Presencia</div><div class="pline">Estar donde estás. Volver al momento presente.</div></div>
     </div>
     <div class="prow reveal">
       <div class="pnum">02</div>
-      <div class="pmark"><svg viewBox="0 0 64 64"><path d="M10 46 L26 26 L34 36 L44 22 L54 46 Z"/></svg></div>
+      <div class="pmark"><svg viewBox="0 0 64 64"><path d="M10 46 L26 26 L34 36 L44 22 L54 46 Z"></path></svg></div>
       <div class="pbody"><div class="pname">Movimiento</div><div class="pline">El cuerpo como herramienta de transformación.</div></div>
     </div>
     <div class="prow reveal">
       <div class="pnum">03</div>
-      <div class="pmark"><svg viewBox="0 0 64 64"><path d="M18 48 L18 34 A14 14 0 0 1 46 34 L46 48"/></svg></div>
+      <div class="pmark"><svg viewBox="0 0 64 64"><path d="M18 48 L18 34 A14 14 0 0 1 46 34 L46 48"></path></svg></div>
       <div class="pbody"><div class="pname">Respiración</div><div class="pline">El aliento como ancla. Inhalar calma, exhalar ruido.</div></div>
     </div>
     <div class="prow reveal">
       <div class="pnum">04</div>
-      <div class="pmark"><svg viewBox="0 0 64 64"><path d="M8 44 L56 44"/><path d="M26 44 L31 28 L37 28 L42 44 Z"/></svg></div>
+      <div class="pmark"><svg viewBox="0 0 64 64"><path d="M8 44 L56 44"></path><path d="M26 44 L31 28 L37 28 L42 44 Z"></path></svg></div>
       <div class="pbody"><div class="pname">Equilibrio</div><div class="pline">Entre rendimiento y descanso. Entre hacer y ser.</div></div>
     </div>
     <div class="prow reveal">
       <div class="pnum">05</div>
-      <div class="pmark"><svg viewBox="0 0 64 64"><path d="M10 48 L26 22 L36 38 L44 26 L54 48 Z"/></svg></div>
+      <div class="pmark"><svg viewBox="0 0 64 64"><path d="M10 48 L26 22 L36 38 L44 26 L54 48 Z"></path></svg></div>
       <div class="pbody"><div class="pname">Naturaleza</div><div class="pline">La montaña como maestra. El silencio como recurso.</div></div>
     </div>
     <div class="prow reveal">
       <div class="pnum">06</div>
-      <div class="pmark"><svg viewBox="0 0 64 64"><rect x="20" y="38" width="24" height="9" rx="4"/><rect x="23" y="28" width="18" height="8" rx="4"/><rect x="26" y="19" width="12" height="7" rx="3"/></svg></div>
+      <div class="pmark"><svg viewBox="0 0 64 64"><rect x="20" y="38" width="24" height="9" rx="4"></rect><rect x="23" y="28" width="18" height="8" rx="4"></rect><rect x="26" y="19" width="12" height="7" rx="3"></rect></svg></div>
       <div class="pbody"><div class="pname">Autenticidad</div><div class="pline">Sin artificios. Sin promesas vacías. Solo lo que funciona.</div></div>
     </div>
   </div>
 </section>
 
-<!-- CIERRE -->
-<section class="sec-deep cierre" id="cierre">
-  <div class="contours" data-contours data-seed="3.4"></div>
-  <div class="wrap reveal">
-    <h2 class="hero-wm" style="line-height:.9;">ORRI</h2>
-    <p class="hero-tag" style="margin-top:.1em;">El refugio del bienestar corporativo.</p>
-    <div class="mono" style="margin-top:clamp(28px,5vh,52px); letter-spacing:.2em; text-transform:uppercase; color:var(--on-dark-soft); font-size:clamp(12px,1.5vw,16px);">NACIDO EN GRÉIXER · 1.345 M.S.N.M.</div>
-    <div class="contact" style="margin-top:18px;">pat@orri.studio</div>
-    <div class="foot">
-      <span>ORRI · 2026</span>
-      <span>42.4128° N · 1.8244° E</span>
+<!-- 05 · MÉTODO / CÓMO ACOMPAÑAMOS -->
+<section class="sec-light" id="metodo">
+  <div class="contours" data-contours="" data-seed="5.2"></div>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="kicker">05 — El método</div>
+      <p class="intro-lead">Un refugio que se adapta a tu organización.</p>
+      <p class="sec-sub">El mismo refugio, tres formas de acceder a él según dónde esté hoy tu equipo. Vamos nosotros, te acompañamos a cualquier altura, o subimos juntos a la montaña.</p>
+    </div>
+    <div class="access-grid">
+      <a class="access reveal" href="#empresa">
+        <div class="alt">El valle · a pie de oficina</div>
+        <div class="amark"><svg viewBox="0 0 64 64"><path d="M8 50 L56 50" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"></path><path d="M16 50 L16 30 L48 30 L48 50" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"></path><path d="M26 50 L26 40 Q32 34 38 40 L38 50" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"></path></svg></div>
+        <h3>En la empresa</h3>
+        <p>Llevamos el refugio a tu oficina: sesiones y un espacio de desconexión dentro de la jornada.</p>
+        <span class="go">Conocer →</span>
+      </a>
+      <a class="access reveal d1" href="#online">
+        <div class="alt">La ladera · a cualquier altura</div>
+        <div class="amark"><svg viewBox="0 0 64 64"><path d="M10 52 L26 24 L36 40 L46 28 L56 52 Z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"></path><circle cx="46" cy="20" r="4" fill="none" stroke="currentColor" stroke-width="2.4"></circle></svg></div>
+        <h3>Online</h3>
+        <p>El refugio te acompaña a distancia: clases en directo y bajo demanda, estés donde estés.</p>
+        <span class="go">Conocer →</span>
+      </a>
+      <a class="access reveal d2" href="#retiros">
+        <div class="alt">La cumbre · 1.345 m</div>
+        <div class="amark"><svg viewBox="0 0 64 64"><path d="M6 54 L24 18 L33 34 L42 12 L58 54 Z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"></path><path d="M38 21 L46 21" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"></path></svg></div>
+        <h3>Retiros</h3>
+        <p>Subimos a la montaña: experiencias de varios días que unen salud, equipo y naturaleza.</p>
+        <span class="go">Conocer →</span>
+      </a>
     </div>
   </div>
 </section>
 
-<template id="__bundler_thumbnail">
-  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="#2A2F28"/><text x="50" y="58" font-family="Georgia, serif" font-size="24" fill="#E8E8E1" text-anchor="middle" letter-spacing="2">ORRI</text></svg>
-</template>
+<!-- FORMATO 01 · EN LA EMPRESA -->
+<section class="sec-light" id="empresa">
+  <div class="wrap">
+    <div class="service-grid">
+      <div class="service-media reveal">
+        <span class="service-alt">El valle · a pie de oficina</span>
+        <image-slot id="svc-empresa" placeholder="Sesión real en oficina — movimiento / respiración (vertical)"></image-slot>
+      </div>
+      <div class="service stk reveal d1">
+        <div class="kicker">Formato 01</div>
+        <h2 style="margin-top:18px;">En la empresa</h2>
+        <p class="pos">Llevamos el refugio a tu oficina.</p>
+        <p class="desc">Clases dirigidas dentro de la jornada y la creación de un espacio de desconexión permanente en vuestras instalaciones. Un ritual de bienestar que ocurre donde el equipo ya está, sin desplazamientos ni fricción.</p>
+        <ul class="spec">
+          <li><span class="k">Formatos</span><span class="v">Sesión puntual o programa recurrente semanal o mensual</span></li>
+          <li><span class="k">Sesiones</span><span class="v">Movimiento, respiración y mindfulness guiado</span></li>
+          <li><span class="k">Duración</span><span class="v">45–60 min</span></li>
+          <li><span class="k">Grupo</span><span class="v">A confirmar según instalaciones</span></li>
+          <li><span class="k">Logística</span><span class="v">Instructores presenciales.</span></li>
+        </ul>
+        <p class="forwhom"><b>Para quién:</b> equipos presenciales que quieren un ritual de bienestar dentro de su rutina.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORMATO 02 · ONLINE -->
+<section class="sec-mute" id="online">
+  <div class="contours" data-contours="" data-seed="7.4"></div>
+  <div class="wrap">
+    <div class="service-grid flip">
+      <div class="service-media reveal">
+        <span class="service-alt">La ladera · a cualquier altura</span>
+        <image-slot id="svc-online" placeholder="Clase en streaming / práctica en casa (vertical)"></image-slot>
+      </div>
+      <div class="service stk reveal d1">
+        <div class="kicker">Formato 02</div>
+        <h2 style="margin-top:18px;">Online</h2>
+        <p class="pos">El refugio te acompaña.</p>
+        <p class="desc">Una plataforma de streaming propia con clases en directo y un catálogo bajo demanda, accesible desde cualquier lugar. El programa de bienestar que escala a toda la plantilla, sin importar dónde trabaje cada persona.</p>
+        <ul class="spec">
+          <li><span class="k">En directo</span><span class="v">Sesiones programadas con instructores ORRI</span></li>
+          <li><span class="k">Bajo demanda</span><span class="v">Catálogo disponible 24/7</span></li>
+          <li><span class="k">Escala</span><span class="v">Equipos híbridos, remotos y multi-oficina</span></li>
+          <li><span class="k">Integración</span><span class="v">Beneficio recurrente del programa de bienestar</span></li>
+        </ul>
+        <p class="forwhom"><b>Para quién:</b> equipos remotos o híbridos; empresas que quieren llevar el programa a toda la organización.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORMATO 03 · RETIROS -->
+<section class="sec-dark" id="retiros">
+  <div class="contours" data-contours="" data-seed="2.1"></div>
+  <div class="wrap">
+    <div class="service-grid">
+      <div class="service-media reveal">
+        <span class="service-alt">La cumbre · 1.345 m</span>
+        <image-slot id="svc-retiros" placeholder="Retiro real — montaña / grupo / Cadí-Moixeró (vertical)"></image-slot>
+      </div>
+      <div class="service stk reveal d1">
+        <div class="kicker" style="color:var(--on-dark-soft);">Formato 03</div>
+        <h2 style="margin-top:18px; color:var(--on-dark);">Retiros</h2>
+        <p class="pos" style="color:var(--on-dark-soft);">Sube a la montaña.</p>
+        <p class="desc" style="color:var(--on-dark-soft);">Experiencias de varios días en lugares de ensueño que combinan salud, cohesión de equipo y naturaleza. El refugio en su forma más completa: desconectar para volver con perspectiva.</p>
+        <ul class="spec">
+          <li style="border-color:var(--line-dark);"><span class="k">Duración</span><span class="v" style="color:var(--on-dark);">1–3 días</span></li>
+          <li style="border-color:var(--line-dark);"><span class="k">Ubicación</span><span class="v" style="color:var(--on-dark);">Gréixer · Cadí-Moixeró · Montserrat · Girona · Cadaqués · Sitges · Cerdanya · y otros lugares</span></li>
+          <li style="border-color:var(--line-dark);"><span class="k">Incluye</span><span class="v" style="color:var(--on-dark);">Alojamiento, facilitación, comidas y actividades</span></li>
+          <li style="border-color:var(--line-dark);"><span class="k">Objetivo</span><span class="v" style="color:var(--on-dark);">Cohesión, descompresión de liderazgo, reconocimiento</span></li>
+        </ul>
+        <p class="forwhom" style="color:var(--on-dark);"><b>Para quién:</b> offsites de liderazgo, cohesión de equipo y programas de recompensa.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 · IMPACTO -->
+<section class="sec-deep" id="impacto">
+  <div class="contours" data-contours="" data-seed="4.8"></div>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="kicker" style="color:var(--on-dark-soft);">06 — El impacto</div>
+      <p class="intro-lead" style="color:var(--on-dark);">El bienestar no es un gasto. Es una inversión en tu gente.</p>
+    </div>
+    <div class="twocol-text reveal d1">
+      <div>
+        <h3>El problema</h3>
+        <p>Burnout, absentismo, rotación y desconexión del talento. El coste del estrés sostenido se paga en salud, en clima y en cuenta de resultados.</p>
+      </div>
+      <div>
+        <h3>El retorno</h3>
+        <p>Retención, employer branding, productividad y compromiso. Equipos que se cuidan se quedan, rinden y atraen a otros.</p>
+      </div>
+    </div>
+    <div class="impact-grid">
+      <div class="stat reveal"><span class="n">−78%</span><div class="d">Los equipos con mayor compromiso registran un 78% menos de absentismo que los menos comprometidos.</div><div class="src">Fuente: Gallup · meta-análisis Q12 / State of the Global Workplace</div></div>
+      <div class="stat reveal d1"><span class="n">×5</span><div class="d">Retorno medio por cada euro invertido en salud mental y bienestar laboral, vía menor absentismo, mayor productividad y retención.</div><div class="src">Fuente: Deloitte · “Mental health and employers” (UK)</div></div>
+      <div class="stat reveal d2"><span class="n">×7</span><div class="d">En la montaña nadie sube solo. Las personas con vínculos reales en el trabajo están 7 veces más comprometidas; cuidar esos lazos es cuidar al equipo.</div><div class="src">Fuente: Gallup · Q12 (“Mejor amigo en el trabajo”)</div></div>
+    </div>
+    <p class="sec-sub reveal" style="margin-top:clamp(36px,5vh,56px);">Medimos lo que importa: participación, encuestas de bienestar antes y después, e indicadores acordados con tu equipo de People.</p>
+  </div>
+</section>
+
+<!-- 07 · CÓMO FUNCIONA -->
+<section class="sec-light" id="proceso">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="kicker">07 — Cómo funciona</div>
+      <p class="intro-lead">Un servicio llave en mano, de principio a fin.</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal"><div class="sn">Paso 01</div><h3>Diagnóstico</h3><p>Escuchamos a tu equipo de People y entendemos el momento, los objetivos y los retos concretos.</p></div>
+      <div class="step reveal d1"><div class="sn">Paso 02</div><h3>Propuesta a medida</h3><p>Diseñamos el formato ajustado a las necesidades y características de tu organización.</p></div>
+      <div class="step reveal d2"><div class="sn">Paso 03</div><h3>Implementación</h3><p>Ponemos en marcha el programa con nuestros instructores y toda la logística resuelta.</p></div>
+      <div class="step reveal d3"><div class="sn">Paso 04</div><h3>Seguimiento</h3><p>Medimos resultados, recogemos feedback y ajustamos para sostener el impacto en el tiempo.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 · CONFÍAN EN NOSOTROS -->
+<section class="sec-mute" id="confian">
+  <div class="contours" data-contours="" data-seed="8.6"></div>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="kicker">08 — Confían en nosotros</div>
+      <p class="intro-lead">Equipos que ya han vuelto a su centro.</p>
+    </div>
+    <div class="logos reveal d1">
+      <div class="cell"><span>[Logo]</span></div>
+      <div class="cell"><span>[Logo]</span></div>
+      <div class="cell"><span>[Logo]</span></div>
+      <div class="cell"><span>[Logo]</span></div>
+      <div class="cell"><span>[Logo]</span></div>
+    </div>
+    <div class="quotes">
+      <div class="quote reveal">
+        <blockquote>“<span class="todo">[Testimonio a aportar]</span> — el impacto en el clima del equipo fue inmediato.”</blockquote>
+        <div class="who"><div class="ph"></div><div><div class="nm"><span class="todo">[Nombre]</span></div><div class="rl">Responsable de People · <span class="todo">[Empresa]</span></div></div></div>
+      </div>
+      <div class="quote reveal d1">
+        <blockquote>“<span class="todo">[Testimonio a aportar]</span> — volvimos del retiro siendo otro equipo.”</blockquote>
+        <div class="who"><div class="ph"></div><div><div class="nm"><span class="todo">[Nombre]</span></div><div class="rl">Dirección · <span class="todo">[Empresa]</span></div></div></div>
+      </div>
+    </div>
+    <div class="sec-head reveal" style="margin-top:clamp(56px,8vh,96px);">
+      <div class="kicker">El equipo</div>
+      <p class="sec-sub">Instructores con experiencia real en montaña, movimiento y bienestar. <span class="todo">Bios y credenciales a aportar.</span></p>
+    </div>
+    <div class="team">
+      <div class="member reveal"><div class="ph"></div><div class="nm"><span class="todo">[Nombre]</span></div><div class="rl">Movimiento</div></div>
+      <div class="member reveal d1"><div class="ph"></div><div class="nm"><span class="todo">[Nombre]</span></div><div class="rl">Respiración</div></div>
+      <div class="member reveal d2"><div class="ph"></div><div class="nm"><span class="todo">[Nombre]</span></div><div class="rl">Mindfulness</div></div>
+      <div class="member reveal d3"><div class="ph"></div><div class="nm"><span class="todo">[Nombre]</span></div><div class="rl">Naturaleza</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 · EMPIEZA EL DESCENSO (conversión) -->
+<section class="sec-deep" id="contacto">
+  <div class="contours" data-contours="" data-seed="3.4"></div>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="kicker" style="color:var(--on-dark-soft);">09 — Empieza el descenso</div>
+      <p class="intro-lead" style="color:var(--on-dark); max-width:18ch;">Cuéntanos sobre tu equipo.</p>
+      <p class="sec-sub">Preparamos una propuesta a medida para tu organización. Sin compromiso.</p>
+    </div>
+    <div class="cta-grid">
+      <form class="form reveal d1" id="leadForm">
+        <div class="form-fields">
+          <div class="field"><label for="f-empresa">Empresa</label><input id="f-empresa" name="empresa" type="text" placeholder="Nombre de la empresa" required=""></div>
+          <div class="field"><label for="f-nombre">Tu nombre y rol</label><input id="f-nombre" name="nombre" type="text" placeholder="Nombre · People / Dirección" required=""></div>
+          <div class="field"><label for="f-email">Email de trabajo</label><input id="f-email" name="email" type="email" placeholder="nombre@empresa.com" required=""></div>
+          <div class="field"><label for="f-size">Nº de empleados</label>
+            <select id="f-size" name="size" required="">
+              <option value="" disabled="" selected="">Selecciona un rango</option>
+              <option>0 – 5</option><option>5 – 15</option><option>15 – 50</option><option>+50</option>
+            </select>
+          </div>
+          <div class="field"><label for="f-msg">¿Qué buscáis?</label><textarea id="f-msg" name="mensaje" rows="3" placeholder="En la empresa, online, un retiro… cuéntanos el momento de tu equipo."></textarea></div>
+          <button class="btn" type="submit">Solicitar propuesta</button>
+        </div>
+        <div class="form-done">
+          <div class="fd-h">Gracias. Empezamos.</div>
+          <div class="fd-p">Hemos recibido tu mensaje. Te escribiremos en menos de 48 h con los siguientes pasos. <span class="todo">Conectar a CRM / email real.</span></div>
+        </div>
+      </form>
+      <div class="stk">
+        <div class="dossier reveal d1">
+          <h3>Dossier corporativo</h3>
+          <p>Toda la información en un PDF para compartir internamente con quien aprueba el presupuesto.</p>
+          <a class="dl" href="#" id="dossierLink">↓ Descargar dossier (PDF)</a>
+        </div>
+        <div class="dossier reveal d2" style="margin-top:18px;">
+          <h3>Prefieres hablar</h3>
+          <p>Reserva una llamada de 20 minutos y te lo contamos en persona.</p>
+          <a class="dl" href="#" id="callLink">Reservar llamada →</a>
+        </div>
+        <div class="alt-contact">
+          También puedes escribirnos a <a href="mailto:pat@orri.studio">pat@orri.studio</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-foot">
+  <div class="contours" data-contours="" data-seed="6.6"></div>
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <div class="wm">ORRI</div>
+      <div class="tg">El refugio del bienestar corporativo.</div>
+    </div>
+    <div class="foot-col">
+      <h4>Navegación</h4>
+      <a href="#origen">Origen</a>
+      <a href="#pilares">Pilares</a>
+      <a href="#metodo">Método</a>
+      <a href="#impacto">Impacto</a>
+      <a href="#confian">Confían</a>
+    </div>
+    <div class="foot-col">
+      <h4>Empezar</h4>
+      <a href="#contacto">Solicita propuesta</a>
+      <a href="#contacto">Descargar dossier</a>
+      <a class="mail" href="mailto:pat@orri.studio">pat@orri.studio</a>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>ORRI · 2026 · Nacido en Gréixer · 1.345 m.s.n.m.</span>
+    <span>42.4128° N · 1.8244° E</span>
+  </div>
+</footer>
+
+<!-- CALL MODAL -->
+<div class="modal" id="callModal" role="dialog" aria-modal="true" aria-labelledby="callModalTitle">
+  <div class="modal-scrim" data-close=""></div>
+  <div class="modal-card">
+    <button class="modal-close" data-close="" aria-label="Cerrar">Cerrar</button>
+    <form class="form" id="callForm">
+      <div class="form-fields">
+        <div class="mk">Reserva una llamada</div>
+        <h3 id="callModalTitle">Te llamamos.</h3>
+        <p class="mp">Déjanos tu nombre y teléfono y te llamaremos de inmediato.</p>
+        <div class="field"><label for="c-nombre">Tu nombre</label><input id="c-nombre" name="nombre" type="text" placeholder="Nombre y apellido" required=""></div>
+        <div class="field"><label for="c-tel">Teléfono</label><input id="c-tel" name="telefono" type="tel" placeholder="+34 600 000 000" required=""></div>
+        <button class="btn" type="submit">Que me llamen</button>
+      </div>
+      <div class="modal-done">
+        <div class="md-h">Te llamamos de inmediato.</div>
+        <div class="md-p">Gracias. Hemos recibido tus datos y te llamaremos enseguida.</div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
 
 <script src="image-slot.js"></script>
 <script src="orri-site.js"></script>
-</body>
-</html>
+
+
+</body></html>
