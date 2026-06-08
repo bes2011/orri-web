@@ -116,6 +116,47 @@
   .contact{ font-family:var(--mono); font-size:clamp(13px,1.6vw,17px); letter-spacing:.14em; color:var(--on-dark); }
   .foot{ margin-top:clamp(60px,10vh,120px); display:flex; justify-content:space-between; flex-wrap:wrap; gap:14px; font-family:var(--mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--on-dark-soft); }
 
+  /* ── modal reserva llamada ── */
+  .call-modal{ position:fixed; inset:0; z-index:200; display:flex; align-items:center; justify-content:center; padding:20px;
+    opacity:0; pointer-events:none; transition:opacity .3s ease; }
+  .call-modal.open{ opacity:1; pointer-events:auto; }
+  .call-modal-overlay{ position:absolute; inset:0; background:rgba(20,24,18,.72); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); cursor:pointer; }
+  .call-modal-box{ position:relative; background:var(--pine-deep); border:1px solid rgba(222,220,209,.14); border-radius:10px;
+    padding:clamp(32px,5vw,52px); width:100%; max-width:480px;
+    transform:translateY(18px); transition:transform .35s cubic-bezier(.2,.7,.2,1);
+    color:var(--on-dark); }
+  .call-modal.open .call-modal-box{ transform:translateY(0); }
+  .call-modal-close{ position:absolute; top:18px; right:18px; background:none; border:none; cursor:pointer;
+    color:var(--on-dark-soft); font-size:22px; line-height:1; padding:6px; transition:color .2s; }
+  .call-modal-close:hover{ color:var(--on-dark); }
+  .call-modal-kicker{ font-family:var(--mono); font-size:11px; letter-spacing:.26em; text-transform:uppercase; color:var(--sage); margin-bottom:14px; }
+  .call-modal-title{ font-family:var(--serif); font-weight:500; font-size:clamp(28px,4vw,38px); line-height:1.06; margin:0 0 10px; }
+  .call-modal-sub{ font-size:15px; color:var(--on-dark-soft); margin:0 0 32px; line-height:1.55; }
+  .call-field{ margin-bottom:20px; }
+  .call-field label{ display:block; font-family:var(--mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase;
+    color:var(--on-dark-soft); margin-bottom:8px; }
+  .call-field input{ width:100%; background:rgba(222,220,209,.06); border:1px solid rgba(222,220,209,.18); border-radius:5px;
+    padding:13px 16px; color:var(--on-dark); font-family:var(--sans); font-size:16px; font-weight:300;
+    outline:none; transition:border-color .2s; -webkit-appearance:none; }
+  .call-field input::placeholder{ color:rgba(157,160,147,.5); }
+  .call-field input:focus{ border-color:rgba(222,220,209,.5); }
+  .call-captcha{ margin-bottom:28px; }
+  .call-captcha label{ display:block; font-family:var(--mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase;
+    color:var(--on-dark-soft); margin-bottom:8px; }
+  .call-captcha input{ width:120px; background:rgba(222,220,209,.06); border:1px solid rgba(222,220,209,.18); border-radius:5px;
+    padding:12px 16px; color:var(--on-dark); font-family:var(--mono); font-size:15px;
+    outline:none; transition:border-color .2s; -webkit-appearance:none; }
+  .call-captcha input:focus{ border-color:rgba(222,220,209,.5); }
+  .call-submit{ width:100%; background:var(--mist); color:var(--ink); border:none; border-radius:5px;
+    padding:15px 24px; font-family:var(--mono); font-size:13px; letter-spacing:.18em; text-transform:uppercase;
+    cursor:pointer; transition:background .2s, opacity .2s; }
+  .call-submit:hover{ background:var(--stone); }
+  .call-submit:disabled{ opacity:.5; cursor:not-allowed; }
+  .call-success{ text-align:center; padding:20px 0 8px; }
+  .call-success p{ font-family:var(--serif); font-size:clamp(22px,3vw,28px); color:var(--on-dark); line-height:1.2; margin:0 0 8px; }
+  .call-success small{ font-family:var(--mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--on-dark-soft); }
+  .call-error{ font-family:var(--mono); font-size:12px; color:#c97b5a; margin-top:12px; text-align:center; letter-spacing:.06em; }
+
   /* ===== commercial layer ===== */
   .intro-lead{ font-family:var(--serif); font-weight:400; font-size:clamp(28px,4vw,56px); line-height:1.16; max-width:20ch; margin:clamp(20px,3vh,36px) 0 0; }
   .sec-head{ max-width:920px; }
@@ -699,8 +740,133 @@
 
 
 
+<!-- MODAL: RESERVAR LLAMADA -->
+<div id="callModal" class="call-modal" role="dialog" aria-modal="true" aria-labelledby="callModalTitle" aria-hidden="true">
+  <div class="call-modal-overlay" id="callModalOverlay"></div>
+  <div class="call-modal-box">
+    <button class="call-modal-close" id="callModalClose" aria-label="Cerrar">✕</button>
+    <div id="callFormWrap">
+      <div class="call-modal-kicker">Reservar llamada</div>
+      <h2 class="call-modal-title" id="callModalTitle">Cuéntanos quién eres.</h2>
+      <p class="call-modal-sub">Te llamamos en menos de 24 h para una conversación de 20 minutos sin compromiso.</p>
+      <!-- FORMSPREE: sustituye YOUR_FORM_ID por tu endpoint de formspree.io -->
+      <form id="callForm" novalidate>
+        <div class="call-field">
+          <label for="callNombre">Nombre</label>
+          <input type="text" id="callNombre" name="nombre" required placeholder="Tu nombre completo" autocomplete="name">
+        </div>
+        <div class="call-field">
+          <label for="callTelefono">Teléfono</label>
+          <input type="tel" id="callTelefono" name="telefono" required placeholder="+34 600 000 000" autocomplete="tel">
+        </div>
+        <div class="call-captcha">
+          <label id="captchaLabel">Verificación</label>
+          <input type="number" id="captchaInput" placeholder="?" aria-labelledby="captchaLabel" autocomplete="off">
+        </div>
+        <button type="submit" class="call-submit" id="callSubmit">Enviar solicitud →</button>
+        <div class="call-error" id="callError" style="display:none"></div>
+      </form>
+    </div>
+    <div id="callSuccess" class="call-success" style="display:none">
+      <p>Perfecto —<br>te llamamos pronto.</p>
+      <small>Hemos recibido tu solicitud</small>
+    </div>
+  </div>
+</div>
+
 <script src="image-slot.js"></script>
 <script src="orri-site.js"></script>
+<script>
+(function(){
+  /* ── configuración ── */
+  var FORMSPREE = 'https://formspree.io/f/YOUR_FORM_ID'; // ← cambia YOUR_FORM_ID
+
+  /* ── captcha aritmético ── */
+  var captchaAnswer = 0;
+  function newCaptcha(){
+    var a = Math.floor(Math.random()*9)+1;
+    var b = Math.floor(Math.random()*9)+1;
+    captchaAnswer = a + b;
+    document.getElementById('captchaLabel').textContent = '¿Cuánto es ' + a + ' + ' + b + '?';
+    document.getElementById('captchaInput').value = '';
+  }
+
+  /* ── modal ── */
+  var modal   = document.getElementById('callModal');
+  var formWrap= document.getElementById('callFormWrap');
+  var success = document.getElementById('callSuccess');
+  var errorEl = document.getElementById('callError');
+
+  function openModal(){
+    newCaptcha();
+    success.style.display = 'none';
+    formWrap.style.display = '';
+    errorEl.style.display  = 'none';
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden','false');
+    document.body.style.overflow = 'hidden';
+    setTimeout(function(){ document.getElementById('callNombre').focus(); }, 350);
+  }
+  function closeModal(){
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden','true');
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('callLink').addEventListener('click', function(e){ e.preventDefault(); openModal(); });
+  document.getElementById('callModalClose').addEventListener('click', closeModal);
+  document.getElementById('callModalOverlay').addEventListener('click', closeModal);
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeModal(); });
+
+  /* ── envío ── */
+  document.getElementById('callForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var nombre   = document.getElementById('callNombre').value.trim();
+    var telefono = document.getElementById('callTelefono').value.trim();
+    var captcha  = parseInt(document.getElementById('captchaInput').value, 10);
+
+    if(!nombre || !telefono){ showError('Por favor rellena todos los campos.'); return; }
+    if(isNaN(captcha) || captcha !== captchaAnswer){ showError('La verificación no es correcta.'); newCaptcha(); return; }
+
+    var btn = document.getElementById('callSubmit');
+    btn.disabled = true;
+    btn.textContent = 'Enviando…';
+    errorEl.style.display = 'none';
+
+    fetch(FORMSPREE, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        nombre: nombre,
+        telefono: telefono,
+        _subject: 'Solicitud de llamada — ORRI',
+        _replyto: 'hola@orri.studio'
+      })
+    })
+    .then(function(r){ return r.json().then(function(d){ return {ok:r.ok, data:d}; }); })
+    .then(function(res){
+      if(res.ok){
+        formWrap.style.display = 'none';
+        success.style.display  = '';
+      } else {
+        btn.disabled = false;
+        btn.textContent = 'Enviar solicitud →';
+        showError('Algo salió mal. Escríbenos directamente a hola@orri.studio');
+      }
+    })
+    .catch(function(){
+      btn.disabled = false;
+      btn.textContent = 'Enviar solicitud →';
+      showError('No se pudo enviar. Inténtalo de nuevo o escríbenos a hola@orri.studio');
+    });
+  });
+
+  function showError(msg){
+    errorEl.textContent = msg;
+    errorEl.style.display = '';
+  }
+})();
+</script>
 
 
 </body></html>
