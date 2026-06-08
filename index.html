@@ -757,13 +757,31 @@
     document.getElementById('c-captcha').value = '';
   }
 
+  /* open modal on button click */
+  var callLink = document.getElementById('callLink');
+  if(callLink){
+    callLink.addEventListener('click', function(e){
+      e.preventDefault();
+      document.getElementById('callModal').classList.add('open');
+      document.body.classList.add('modal-open');
+    });
+  }
+
+  /* close modal on scrim / close button */
+  document.querySelectorAll('[data-close]').forEach(function(el){
+    el.addEventListener('click', function(){
+      document.getElementById('callModal').classList.remove('open');
+      document.body.classList.remove('modal-open');
+    });
+  });
+
   /* init captcha on load and each time the modal opens */
   newCaptcha();
   var modal = document.getElementById('callModal');
   if(modal){
     var obs = new MutationObserver(function(muts){
       muts.forEach(function(m){
-        if(m.attributeName === 'class' && modal.classList.contains('is-open')) newCaptcha();
+        if(m.attributeName === 'class' && modal.classList.contains('open')) newCaptcha();
       });
     });
     obs.observe(modal, { attributes: true });
