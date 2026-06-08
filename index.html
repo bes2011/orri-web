@@ -259,7 +259,8 @@
   .form-fields{ display:flex; flex-direction:column; gap:20px; }
   .field{ display:flex; flex-direction:column; gap:8px; }
   .field label{ font-family:var(--mono); font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--on-dark-soft); }
-  .field input,.field select,.field textarea{ font-family:var(--sans); font-weight:300; font-size:17px; color:var(--on-dark); background:transparent; border:0; border-bottom:1px solid var(--line-dark); padding:11px 2px; outline:none; transition:border-color .3s; border-radius:0; }
+  .field input,.field select,.field textarea{ font-family:var(--sans); font-weight:300; font-size:17px; color:var(--on-dark); background:transparent; border:0; border-bottom:1px solid var(--line-dark); padding:11px 2px; outline:none; transition:border-color .3s; border-radius:0; display:block; width:100%; box-sizing:border-box; }
+  .field textarea{ resize:none; }
   .field input::placeholder,.field textarea::placeholder{ color:var(--on-dark-soft); opacity:.5; }
   .field input:focus,.field select:focus,.field textarea:focus{ border-bottom-color:var(--on-dark); }
   .field select{ -webkit-appearance:none; appearance:none; cursor:pointer; }
