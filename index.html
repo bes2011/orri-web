@@ -733,8 +733,8 @@
         <div id="callFormError" style="display:none;margin-top:12px;font-size:13px;color:#c97b5a;"></div>
       </div>
       <div class="modal-done">
-        <div class="md-h">Te llamamos de inmediato.</div>
-        <div class="md-p">Gracias. Hemos recibido tus datos y te llamaremos enseguida.</div>
+        <div class="md-h">Solicitud enviada.</div>
+        <div class="md-p">Hemos recibido tus datos y te llamaremos enseguida.</div>
       </div>
     </form>
   </div>
@@ -821,8 +821,7 @@
       .then(function(r){ return r.json().then(function(d){ return { ok: r.ok, data: d }; }); })
       .then(function(res){
         if(res.ok){
-          form.querySelector('.form-fields').style.display = 'none';
-          form.querySelector('.modal-done').style.display  = '';
+          form.classList.add('sent');
         } else {
           btn.disabled = false;
           btn.textContent = 'Solicitar llamada';
