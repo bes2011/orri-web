@@ -665,7 +665,7 @@
         </div>
         <div class="form-done">
           <div class="fd-h">Gracias. Empezamos.</div>
-          <div class="fd-p">Hemos recibido tu mensaje. Te escribiremos en menos de 48 h con los siguientes pasos. <span class="todo">Conectar a CRM / email real.</span></div>
+          <div class="fd-p">Hemos recibido tu mensaje. Te escribiremos en menos de 48 h con los siguientes pasos.</div>
         </div>
       </form>
       <div class="stk">
@@ -813,6 +813,48 @@
       function showErr(msg){ errEl.textContent = msg; errEl.style.display = ''; }
     });
   }
+})();
+
+(function(){
+  var LEAD_FORMSPREE = 'https://formspree.io/f/mrevqwog';
+  var leadForm = document.getElementById('leadForm');
+  if(!leadForm) return;
+
+  leadForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    var btn = leadForm.querySelector('[type=submit]');
+    var empresa  = document.getElementById('f-empresa').value.trim();
+    var nombre   = document.getElementById('f-nombre').value.trim();
+    var email    = document.getElementById('f-email').value.trim();
+    var size     = document.getElementById('f-size').value;
+    var mensaje  = document.getElementById('f-msg').value.trim();
+    if(!empresa || !nombre || !email || !size){ return; }
+    btn.disabled = true;
+    btn.textContent = 'Enviando…';
+    fetch(LEAD_FORMSPREE, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        empresa: empresa, nombre: nombre, email: email,
+        empleados: size, mensaje: mensaje,
+        _subject: 'Solicitud de propuesta — ORRI',
+        _replyto: email
+      })
+    })
+    .then(function(r){ return r.json().then(function(d){ return { ok: r.ok, data: d }; }); })
+    .then(function(res){
+      if(res.ok){
+        leadForm.classList.add('sent');
+      } else {
+        btn.disabled = false;
+        btn.textContent = 'Solicitar propuesta';
+      }
+    })
+    .catch(function(){
+      btn.disabled = false;
+      btn.textContent = 'Solicitar propuesta';
+    });
+  });
 })();
 </script>
 
