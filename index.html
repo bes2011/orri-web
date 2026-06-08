@@ -728,7 +728,6 @@
         <p class="mp">Déjanos tu nombre y teléfono y te llamaremos de inmediato.</p>
         <div class="field"><label for="c-nombre">Tu nombre</label><input id="c-nombre" name="nombre" type="text" placeholder="Nombre y apellido" required="" autocomplete="name"></div>
         <div class="field"><label for="c-tel">Teléfono</label><input id="c-tel" name="telefono" type="tel" placeholder="+34 600 000 000" required="" autocomplete="tel"></div>
-        <div class="field"><label id="c-captcha-label">Verificación</label><input id="c-captcha" type="number" placeholder="?" autocomplete="off" style="width:100px"></div>
         <button class="btn" type="submit" id="callSubmitBtn">Solicitar llamada</button>
         <div id="callFormError" style="display:none;margin-top:12px;font-size:13px;color:#c97b5a;"></div>
       </div>
@@ -747,15 +746,6 @@
 <script>
 (function(){
   var FORMSPREE = 'https://formspree.io/f/xwvjodvp';
-  var captchaAnswer = 0;
-
-  function newCaptcha(){
-    var a = Math.floor(Math.random()*9)+1;
-    var b = Math.floor(Math.random()*9)+1;
-    captchaAnswer = a + b;
-    document.getElementById('c-captcha-label').textContent = '¿Cuánto es ' + a + ' + ' + b + '?';
-    document.getElementById('c-captcha').value = '';
-  }
 
   /* open modal on button click */
   var callLink = document.getElementById('callLink');
@@ -775,18 +765,6 @@
     });
   });
 
-  /* init captcha on load and each time the modal opens */
-  newCaptcha();
-  var modal = document.getElementById('callModal');
-  if(modal){
-    var obs = new MutationObserver(function(muts){
-      muts.forEach(function(m){
-        if(m.attributeName === 'class' && modal.classList.contains('open')) newCaptcha();
-      });
-    });
-    obs.observe(modal, { attributes: true });
-  }
-
   /* intercept form submit */
   var form = document.getElementById('callForm');
   if(form){
@@ -796,14 +774,12 @@
 
       var nombre   = document.getElementById('c-nombre').value.trim();
       var telefono = document.getElementById('c-tel').value.trim();
-      var captcha  = parseInt(document.getElementById('c-captcha').value, 10);
       var errEl    = document.getElementById('callFormError');
       var btn      = document.getElementById('callSubmitBtn');
 
       errEl.style.display = 'none';
 
       if(!nombre || !telefono){ showErr('Por favor rellena todos los campos.'); return; }
-      if(isNaN(captcha) || captcha !== captchaAnswer){ showErr('Verificación incorrecta.'); newCaptcha(); return; }
 
       btn.disabled = true;
       btn.textContent = 'Enviando…';
