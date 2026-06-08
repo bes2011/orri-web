@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ORRI · Un refugio para volver a ti</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23E8E8E1'/%3E%3Cg fill='none' stroke='%2323251F' stroke-width='3' stroke-linejoin='round' stroke-linecap='round'%3E%3Ccircle cx='50' cy='50' r='34'/%3E%3Cg transform='translate(50,52) scale(0.56) translate(-50,-51)'%3E%3Cpath d='M24,72 L36.1,35.69 Q38,30 44,30 L56,30 Q62,30 63.9,35.69 L76,72 Z'/%3E%3Cpath d='M42,72 L42,58 Q42,50 50,50 Q58,50 58,58 L58,72'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Hanken+Grotesk:wght@300;400;500&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --mist:#E8E8E1; --stone:#CFCCC2; --sage:#6E776A; --pine:#2A2F28; --pine-deep:#1C201A;
+    --ink:#23251F; --ink-soft:#5A5E53; --on-dark:#DEDCD1; --on-dark-soft:#9DA093;
+    --line:rgba(35,37,31,.20); --line-dark:rgba(222,220,209,.20);
+    --serif:'Cormorant Garamond',Georgia,serif; --sans:'Hanken Grotesk',system-ui,sans-serif; --mono:'Space Mono',ui-monospace,monospace;
+    --pad:clamp(24px,6vw,150px);
+  }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+  body{ margin:0; background:var(--mist); color:var(--ink); font-family:var(--sans); font-weight:300; -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+  a{ color:inherit; text-decoration:none; }
+  .mono{ font-family:var(--mono); letter-spacing:.04em; }
+  .kicker{ font-family:var(--mono); font-size:clamp(12px,1.5vw,15px); letter-spacing:.28em; text-transform:uppercase; color:var(--sage); }
+
+  /* ---------- nav ---------- */
+  .nav{ position:fixed; top:0; left:0; right:0; z-index:50; display:flex; align-items:center; justify-content:space-between;
+    padding:18px var(--pad); color:var(--on-dark); transition:background .5s ease,color .5s ease,border-color .5s ease,padding .4s ease;
+    border-bottom:1px solid transparent; }
+  .nav.solid{ background:color-mix(in srgb,var(--mist) 88%,transparent); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); color:var(--ink); border-bottom-color:var(--line); padding-top:14px; padding-bottom:14px; }
+  .nav-wm{ font-family:var(--serif); font-weight:500; font-size:clamp(20px,2.4vw,26px); letter-spacing:.34em; }
+  .nav-links{ display:flex; gap:clamp(18px,2.6vw,40px); }
+  .nav-links a{ font-family:var(--mono); font-size:13px; letter-spacing:.16em; text-transform:uppercase; color:inherit; opacity:.82; transition:opacity .3s; }
+  .nav-links a:hover{ opacity:1; }
+  @media (max-width:720px){ .nav-links{ display:none; } }
+
+  /* ---------- shared section ---------- */
+  section{ position:relative; padding:clamp(90px,13vh,180px) var(--pad); scroll-margin-top:72px; overflow:hidden; }
+  .sec-dark{ background:var(--pine); color:var(--on-dark); }
+  .sec-deep{ background:var(--pine-deep); color:var(--on-dark); }
+  .display{ font-family:var(--serif); font-weight:500; line-height:1.02; margin:0; }
+  .lead{ font-family:var(--serif); font-weight:400; line-height:1.14; margin:0; }
+  .body{ font-weight:300; line-height:1.65; color:var(--ink-soft); }
+  .sec-dark .body,.sec-deep .body{ color:var(--on-dark-soft); }
+  .wrap{ position:relative; z-index:2; max-width:1280px; margin:0 auto; }
+  .rule{ height:1px; background:var(--line); border:0; }
+  .sec-dark .rule,.sec-deep .rule{ background:var(--line-dark); }
+
+  /* contour layers */
+  .contours{ position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:1; opacity:.75; }
+  .sec-light .contours{ color:var(--line); }
+  .sec-dark .contours,.sec-deep .contours{ color:var(--line-dark); }
+  .contour-svg{ position:absolute; inset:0; width:100%; height:100%; }
+  .cline{ fill:none; stroke:currentColor; stroke-width:1.1; vector-effect:non-scaling-stroke; }
+  .cline.idx{ stroke-width:1.8; }
+
+  /* reveal */
+  .js .reveal{ opacity:0; transform:translateY(26px); transition:opacity 1s ease,transform 1s cubic-bezier(.2,.7,.2,1); }
+  .js .reveal.d1{ transition-delay:.12s; } .js .reveal.d2{ transition-delay:.24s; } .js .reveal.d3{ transition-delay:.36s; }
+  .js .reveal.in{ opacity:1; transform:none; }
+  @media (prefers-reduced-motion:reduce){ .js .reveal{ opacity:1; transform:none; transition:none; } }
+
+  /* ---------- hero ---------- */
+  .hero{ min-height:100svh; display:flex; align-items:center; padding-bottom:clamp(60px,10vh,120px); color:var(--on-dark); background:var(--pine-deep); }
+  .hero-bg{ position:absolute; inset:0; z-index:0; }
+  .hero-bg image-slot{ display:block; width:100%; height:100%; }
+  .hero-scrim{ position:absolute; inset:0; background:linear-gradient(180deg,rgba(20,24,18,.34),rgba(20,24,18,.5) 55%,rgba(20,24,18,.82)); }
+  .hero .contours{ color:rgba(222,220,209,.16); opacity:1; z-index:1; }
+  .hero-inner{ position:relative; z-index:3; width:100%; }
+  .hero-wm{ font-family:var(--serif); font-weight:500; letter-spacing:.04em; line-height:.9; font-size:clamp(96px,26vw,440px); margin:.06em 0 0; }
+  .hero-tag{ font-family:var(--serif); font-style:italic; font-weight:400; font-size:clamp(24px,4.4vw,58px); margin:.2em 0 0; color:var(--on-dark); }
+  .hero-eyebrow{ font-family:var(--mono); font-size:clamp(12px,1.5vw,16px); letter-spacing:.22em; text-transform:uppercase; color:var(--on-dark-soft); }
+  .hero-coord{ position:absolute; top:84px; right:var(--pad); z-index:3; white-space:nowrap; font-size:clamp(12px,1.4vw,15px); letter-spacing:.06em; color:var(--on-dark-soft); }
+  @media (max-width:720px){ .hero-coord{ display:none; } }
+  .scrollcue{ position:absolute; left:50%; bottom:30px; transform:translateX(-50%); z-index:3; font-family:var(--mono); font-size:13px; letter-spacing:.2em; color:var(--on-dark-soft); text-transform:uppercase; display:flex; flex-direction:column; align-items:center; gap:10px; }
+  .scrollcue .ln{ width:1px; height:46px; background:linear-gradient(var(--on-dark-soft),transparent); animation:cue 2.4s ease-in-out infinite; transform-origin:top; }
+  @keyframes cue{ 0%,100%{ transform:scaleY(.4); opacity:.5; } 50%{ transform:scaleY(1); opacity:1; } }
+
+  /* ---------- origen ---------- */
+  .twocol{ display:grid; grid-template-columns:1fr 1fr; gap:clamp(40px,7vw,120px); align-items:center; }
+  @media (max-width:860px){ .twocol{ grid-template-columns:1fr; gap:40px; } }
+  .h-sec{ font-size:clamp(44px,8vw,120px); }
+  .stk{ display:flex; flex-direction:column; }
+
+  /* ---------- territorio ---------- */
+  .alt-num{ font-family:var(--serif); font-weight:500; line-height:.92; font-size:clamp(120px,26vw,400px); color:var(--on-dark); letter-spacing:-.01em; white-space:nowrap; font-variant-numeric:tabular-nums; padding-bottom:.06em; }
+  .terr-foot{ display:grid; grid-template-columns:1fr 1fr; gap:clamp(30px,6vw,90px); align-items:start; margin-top:clamp(18px,3vh,40px); }
+  @media (max-width:860px){ .terr-foot{ grid-template-columns:1fr; gap:22px; } }
+
+  /* ---------- idea ---------- */
+  .neglist{ list-style:none; margin:0; padding:0; }
+  .neglist li{ font-family:var(--serif); font-size:clamp(28px,4.6vw,52px); line-height:1.3; color:var(--ink-soft); }
+  .sec-dark .neglist li{ color:var(--on-dark-soft); }
+
+  /* ---------- pilares ---------- */
+  .phead{ display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:12px; }
+  .prow{ display:grid; grid-template-columns:64px 56px 1fr; gap:clamp(20px,3.4vw,52px); align-items:center; padding:clamp(26px,3.4vw,42px) 0; border-top:1px solid var(--line); }
+  .prow:last-child{ border-bottom:1px solid var(--line); }
+  .pnum{ font-family:var(--mono); font-size:15px; color:var(--sage); letter-spacing:.1em; }
+  .pmark{ width:54px; height:54px; color:var(--sage); }
+  .pmark svg{ width:100%; height:100%; display:block; }
+  .pmark path,.pmark circle,.pmark rect,.pmark ellipse{ fill:none; stroke:currentColor; stroke-width:2.4; stroke-linejoin:round; stroke-linecap:round; }
+  .pbody{ display:flex; flex-direction:column; gap:6px; }
+  .pname{ font-family:var(--serif); font-weight:500; font-size:clamp(34px,5.2vw,62px); line-height:1; }
+  .pline{ font-size:clamp(16px,2vw,22px); color:var(--ink-soft); font-weight:300; }
+  @media (max-width:620px){
+    .prow{ grid-template-columns:46px 1fr; row-gap:6px; }
+    .prow .pmark{ grid-row:1 / span 2; width:44px; height:44px; }
+    .prow .pnum{ grid-column:2; }
+    .prow .pbody{ grid-column:2; }
+  }
+
+  /* ---------- cierre ---------- */
+  .cierre{ text-align:center; }
+  .cierre .hero-wm{ font-size:clamp(96px,28vw,420px); }
+  .contact{ font-family:var(--mono); font-size:clamp(13px,1.6vw,17px); letter-spacing:.14em; color:var(--on-dark); }
+  .foot{ margin-top:clamp(60px,10vh,120px); display:flex; justify-content:space-between; flex-wrap:wrap; gap:14px; font-family:var(--mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--on-dark-soft); }
+</style>
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <a class="nav-wm" href="#top">ORRI</a>
+  <nav class="nav-links">
+    <a href="#origen">Origen</a>
+    <a href="#territorio">Territorio</a>
+    <a href="#idea">Idea</a>
+    <a href="#pilares">Pilares</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-bg"><image-slot id="web-hero" placeholder="Foto de portada — montaña / niebla / Gréixer (a sangre)"></image-slot><div class="hero-scrim"></div></div>
+  <div class="contours" data-contours data-seed="1.1"></div>
+  <div class="hero-coord mono">42.4128° N · 1.8244° E</div>
+  <div class="wrap hero-inner reveal">
+    <div class="hero-eyebrow">Nacido en Gréixer · 1.345 m.s.n.m.</div>
+    <h1 class="hero-wm">ORRI</h1>
+    <p class="hero-tag">El refugio del bienestar corporativo.</p>
+  </div>
+  <a class="scrollcue" href="#origen"><span>Descender</span><span class="ln"></span></a>
+</section>
+
+<!-- ORIGEN -->
+<section class="sec-light" id="origen">
+  <div class="contours" data-contours data-seed="2.7"></div>
+  <div class="wrap twocol">
+    <div class="stk reveal">
+      <div class="kicker">01 — El origen</div>
+      <h2 class="display h-sec" style="margin:22px 0 0;">Un refugio<br>de piedra.</h2>
+    </div>
+    <div class="stk reveal d1">
+      <p class="body" style="font-size:clamp(18px,2.2vw,27px); max-width:30ch;">Un <em>orri</em> era una construcción de piedra de los pastores de alta montaña. Un lugar donde protegerse de la tormenta, descansar y recuperar fuerzas antes de continuar el camino.</p>
+      <hr class="rule" style="margin:36px 0 26px;">
+      <div class="stk" style="gap:4px;">
+        <span class="lead" style="font-size:clamp(24px,3.2vw,38px); color:var(--ink-soft);">No era una casa.</span>
+        <span class="lead" style="font-size:clamp(24px,3.2vw,38px); color:var(--ink-soft);">No era un destino.</span>
+        <span class="lead" style="font-size:clamp(24px,3.2vw,38px); color:var(--ink);">Era un punto de reconexión.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TERRITORIO -->
+<section class="sec-dark" id="territorio">
+  <div class="contours" data-contours data-seed="4.3"></div>
+  <div class="wrap">
+    <div class="kicker reveal" style="color:var(--on-dark-soft);">02 — El territorio</div>
+    <div class="alt-num reveal d1" style="margin-top:clamp(24px,4vh,56px);"><span data-count="1345">0</span></div>
+    <div class="terr-foot">
+      <div class="mono reveal d1" style="letter-spacing:.2em; text-transform:uppercase; color:var(--on-dark-soft); font-size:clamp(13px,1.6vw,17px);">metros sobre el nivel del mar</div>
+      <p class="body reveal" data-after-count style="margin:0; font-size:clamp(18px,2.1vw,26px); max-width:34ch;">ORRI nace en Gréixer, en la puerta del Parque Natural del Cadí-Moixeró. Donde el tiempo funciona de otra manera, el ruido desaparece y las cosas vuelven a tener perspectiva.</p>
+    </div>
+  </div>
+</section>
+
+<!-- IDEA CENTRAL -->
+<section class="sec-light" id="idea">
+  <div class="contours" data-contours data-seed="6.1"></div>
+  <div class="wrap twocol">
+    <div class="stk reveal">
+      <div class="kicker">03 — La idea central</div>
+      <ul class="neglist" style="margin-top:26px;">
+        <li>Más información.</li>
+        <li>Más velocidad.</li>
+        <li>Más ruido.</li>
+        <li>Más exigencia.</li>
+      </ul>
+      <p class="lead" style="font-size:clamp(34px,5vw,64px); margin-top:24px;">Pero rara vez<br>más claridad.</p>
+    </div>
+    <div class="stk reveal d1">
+      <h2 class="display" style="font-size: clamp(38px,5.4vw,76px); max-width: 700px;">ORRI nace para conectar organizaciones profesionales.</h2>
+      <p class="body" style="font-size:clamp(18px,2.1vw,26px); max-width:34ch; margin-top:28px;">Un método donde recuperar equilibrio. Un entorno donde reconectar con la esencia de uno mismo. Un refugio contemporáneo para proteger a los trabajadores en el entorno profesional.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PILARES -->
+<section class="sec-light" id="pilares">
+  <div class="wrap">
+    <div class="phead reveal">
+      <div class="kicker">Los pilares</div>
+      <span class="mono" style="text-transform:uppercase; letter-spacing:.2em; color:var(--ink-soft); font-size:clamp(12px,1.5vw,15px);">Seis constantes</span>
+    </div>
+    <hr class="rule" style="margin:26px 0 4px;">
+
+    <div class="prow reveal">
+      <div class="pnum">01</div>
+      <div class="pmark"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="7"/><circle cx="32" cy="32" r="15"/><circle cx="32" cy="32" r="23"/></svg></div>
+      <div class="pbody"><div class="pname">Presencia</div><div class="pline">Estar donde estás. Volver al momento presente.</div></div>
+    </div>
+    <div class="prow reveal">
+      <div class="pnum">02</div>
+      <div class="pmark"><svg viewBox="0 0 64 64"><path d="M10 46 L26 26 L34 36 L44 22 L54 46 Z"/></svg></div>
+      <div class="pbody"><div class="pname">Movimiento</div><div class="pline">El cuerpo como herramienta de transformación.</div></div>
+    </div>
+    <div class="prow reveal">
+      <div class="pnum">03</div>
+      <div class="pmark"><svg viewBox="0 0 64 64"><path d="M18 48 L18 34 A14 14 0 0 1 46 34 L46 48"/></svg></div>
+      <div class="pbody"><div class="pname">Respiración</div><div class="pline">El aliento como ancla. Inhalar calma, exhalar ruido.</div></div>
+    </div>
+    <div class="prow reveal">
+      <div class="pnum">04</div>
+      <div class="pmark"><svg viewBox="0 0 64 64"><path d="M8 44 L56 44"/><path d="M26 44 L31 28 L37 28 L42 44 Z"/></svg></div>
+      <div class="pbody"><div class="pname">Equilibrio</div><div class="pline">Entre rendimiento y descanso. Entre hacer y ser.</div></div>
+    </div>
+    <div class="prow reveal">
+      <div class="pnum">05</div>
+      <div class="pmark"><svg viewBox="0 0 64 64"><path d="M10 48 L26 22 L36 38 L44 26 L54 48 Z"/></svg></div>
+      <div class="pbody"><div class="pname">Naturaleza</div><div class="pline">La montaña como maestra. El silencio como recurso.</div></div>
+    </div>
+    <div class="prow reveal">
+      <div class="pnum">06</div>
+      <div class="pmark"><svg viewBox="0 0 64 64"><rect x="20" y="38" width="24" height="9" rx="4"/><rect x="23" y="28" width="18" height="8" rx="4"/><rect x="26" y="19" width="12" height="7" rx="3"/></svg></div>
+      <div class="pbody"><div class="pname">Autenticidad</div><div class="pline">Sin artificios. Sin promesas vacías. Solo lo que funciona.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CIERRE -->
+<section class="sec-deep cierre" id="cierre">
+  <div class="contours" data-contours data-seed="3.4"></div>
+  <div class="wrap reveal">
+    <h2 class="hero-wm" style="line-height:.9;">ORRI</h2>
+    <p class="hero-tag" style="margin-top:.1em;">El refugio del bienestar corporativo.</p>
+    <div class="mono" style="margin-top:clamp(28px,5vh,52px); letter-spacing:.2em; text-transform:uppercase; color:var(--on-dark-soft); font-size:clamp(12px,1.5vw,16px);">NACIDO EN GRÉIXER · 1.345 M.S.N.M.</div>
+    <div class="contact" style="margin-top:18px;">hola@orri.studio</div>
+    <div class="foot">
+      <span>ORRI · 2026</span>
+      <span>42.4128° N · 1.8244° E</span>
+    </div>
+  </div>
+</section>
+
+<template id="__bundler_thumbnail">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="#2A2F28"/><text x="50" y="58" font-family="Georgia, serif" font-size="24" fill="#E8E8E1" text-anchor="middle" letter-spacing="2">ORRI</text></svg>
+</template>
+
+<script src="image-slot.js"></script>
+<script src="orri-site.js"></script>
+</body>
+</html>
