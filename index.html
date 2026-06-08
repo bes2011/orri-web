@@ -260,7 +260,7 @@
   .field{ display:flex; flex-direction:column; gap:8px; }
   .field label{ font-family:var(--mono); font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--on-dark-soft); }
   .field input,.field select,.field textarea{ font-family:var(--sans); font-weight:300; font-size:17px; color:var(--on-dark); background:transparent; border:0; border-bottom:1px solid var(--line-dark); padding:11px 2px; outline:none; transition:border-color .3s; border-radius:0; display:block; width:100%; box-sizing:border-box; }
-  .field textarea{ resize:none; }
+  .field textarea{ resize:none; overflow:hidden; min-height:44px; }
   .field input::placeholder,.field textarea::placeholder{ color:var(--on-dark-soft); opacity:.5; }
   .field input:focus,.field select:focus,.field textarea:focus{ border-bottom-color:var(--on-dark); }
   .field select{ -webkit-appearance:none; appearance:none; cursor:pointer; }
@@ -661,7 +661,7 @@
               <option>0 – 5</option><option>5 – 15</option><option>15 – 50</option><option>+50</option>
             </select>
           </div>
-          <div class="field"><label for="f-msg">¿Qué buscáis?</label><textarea id="f-msg" name="mensaje" rows="3" placeholder="En la empresa, online, un retiro… cuéntanos el momento de tu equipo."></textarea></div>
+          <div class="field"><label for="f-msg">¿Qué buscáis?</label><textarea id="f-msg" name="mensaje" rows="1" placeholder="En la empresa, online, un retiro… cuéntanos el momento de tu equipo."></textarea></div>
           <button class="btn" type="submit">Solicitar propuesta</button>
         </div>
         <div class="form-done">
@@ -815,6 +815,11 @@
     });
   }
 })();
+
+/* auto-expand textareas */
+document.querySelectorAll('textarea').forEach(function(t){
+  t.addEventListener('input', function(){ this.style.height='auto'; this.style.height=this.scrollHeight+'px'; });
+});
 
 (function(){
   var LEAD_FORMSPREE = 'https://formspree.io/f/mrevqwog';
